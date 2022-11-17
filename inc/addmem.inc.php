@@ -1,0 +1,130 @@
+<?php 
+
+	session_start();
+
+  include "myautoloader.inc.php";
+
+  $userObj = new UserContr();
+
+ ?>
+
+ <?php 
+
+ $house_number = $_SESSION['housenumber'];
+ $head_name = $_SESSION['head_name'];
+
+ if (isset($_POST['save'])) {
+   
+  $mem_name = $_POST['mem_name'];
+  $mem_name_eng = $_POST['mem_name_eng'];
+  $mem_gender = $_POST['mem_gender'];
+  $mem_age = $_POST['mem_age'];
+  $relation = $_POST['relation'];
+  $mem_citizenship = $_POST['mem_citizenship'];
+  $mem_occupation = $_POST['mem_occupation'];
+  $mem_education = $_POST['mem_education'];
+
+  $userObj->createFamMem($house_number, $head_name, $mem_name, $mem_name_eng, $mem_age, $mem_gender, $relation, $mem_citizenship, $mem_occupation, $mem_education);
+  
+  $userObj->redirect('addmem.inc.php?memadded');
+  
+
+ }
+
+
+ 
+?>
+
+
+ <link href="bootstrap.min.css" rel="stylesheet">
+   
+ <link rel="stylesheet" type="text/css" href="style.css">
+
+  <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          
+          <p class="navbar-brand" href="../index.php">पारिवारीक विवरण</p>
+        </div>
+        
+          <ul class="nav navbar-nav">
+            <!-- Nabbar items here -->
+            
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+
+            
+               <li><a href='economic.inc.php'>आर्थिक विवरण</a><br></li>
+            
+          </ul>
+        
+      </div>
+    </nav>
+
+
+<header id="header">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <h1 class="text-center">सदस्यको विवरण ‍</h1>
+          </div>
+
+     
+        </div>
+      </div>
+    </header>
+
+    <?php 
+
+        if (isset($_GET['success'])) {
+
+            echo '<div class="alert alert-info" id="alert" role="alert"> <strong> घरमूलीको विवरण</strong> सुरक्षित भयो। </div>';
+         
+        } else if (isset($_GET['memadded'])) {
+         
+         echo '<div class="alert alert-info" id="alert" role="alert"> <strong>सदस्य</strong> थपियो। </div>'; 
+        }
+
+
+
+
+     ?>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>सदस्यको विवरण</title>
+
+</head>
+<body>
+
+<div class="col-lg-8 col-lg-offset-2">	
+
+	<form class="well" method="POST">
+		
+		<label>घर नम्बरः </label><input readonly type="text" value="<?php echo $house_number; ?>" id="house_number" class="form-control" name="house_number">
+		<label>घरमूलीको नामः </label><input readonly value="<?php echo $head_name; ?>" class="form-control" type="text" id="head_name" name="head_name">
+		<label>सदस्यको नामः </label><input type="text" class="form-control" name="mem_name" required>
+    <label>Name in English </label><input type="text" class="form-control" name="mem_name_eng" required>
+		<label>लिङ्गः </label><select name="mem_gender" class="form-control" required>
+			
+								<option value="पुरुष">पुरुष</option>
+								<option value="महिला">महिला</option>
+								<option value="अन्य">अन्य</option>
+		</select>
+		<label>उमेरः </label><input type="text" class="form-control" name="mem_age" required>
+		<label>घरमूलीसँगको नाताः </label><input type="text" class="form-control" name="relation" required>
+		<label>नागरिकताः </label><input type="text" class="form-control" name="mem_citizenship" required>
+		<label>पेशाः </label><input type="text" class="form-control" name="mem_occupation" required>
+		<label>शैक्षिक योग्यताः </label><input type="text" class="form-control" name="mem_education" required>	
+		<button class="btn btn-primary btn-block" name="save">सबमिट</button><br>
+	</form>
+
+</div>
+</body>
+<div>
+
+</div>
+<script type="text/javascript" src="main.js"></script>
+</html>
